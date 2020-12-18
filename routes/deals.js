@@ -31,9 +31,14 @@ router.get("/jobs", async (req, res, next) => {
 router.get("/job/:id", async (req, res, next) => {
     const id = req.params.id;
     const deals = await models.Deal.findAll({ where: { id } });
-    const deal = deals[0];
-    deal.content = JSON.parse(deal.content);
-    res.json(deal);
+
+    if (deals.length > 0) {
+        const deal = deals[0];
+        deal.content = JSON.parse(deal.content);
+        res.json(deal);
+    } else {
+        res.send('no data to serve!!! Sorry')
+    }
 });
 
 module.exports = router;
